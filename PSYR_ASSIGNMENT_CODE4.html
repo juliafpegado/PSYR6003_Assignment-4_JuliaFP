@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Julia Fraiha-Pegado">
+
+<title>PSYR6003_Assignment4</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="PSYR_ASSIGNMENT_CODE4_files/libs/clipboard/clipboard.min.js"></script>
+<script src="PSYR_ASSIGNMENT_CODE4_files/libs/quarto-html/quarto.js"></script>
+<script src="PSYR_ASSIGNMENT_CODE4_files/libs/quarto-html/popper.min.js"></script>
+<script src="PSYR_ASSIGNMENT_CODE4_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="PSYR_ASSIGNMENT_CODE4_files/libs/quarto-html/anchor.min.js"></script>
+<link href="PSYR_ASSIGNMENT_CODE4_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="PSYR_ASSIGNMENT_CODE4_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="PSYR_ASSIGNMENT_CODE4_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="PSYR_ASSIGNMENT_CODE4_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="PSYR_ASSIGNMENT_CODE4_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">PSYR6003_Assignment4</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Julia Fraiha-Pegado </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="quarto" class="level2">
+<h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
+<p>The present data analysis was based on the “PSYR6003.A4.sav” fictional data set created and published by Dr.&nbsp;Igor Yakovenko. This file contained 263 participants and measured personality and satisfaction with life. This data was obtained using a 7-point Likert scale (In which, 1 = “strongly disagree” and 7 = “strongly agree”), for up to 20 days. The data set contained self-report information on satisfaction with life, extraversion and neuroticism. Although other information was included in the data set, we excluded it for the purposes of the current analysis. Interested in the relationship between certain personality traits and satisfaction with life, we cloned the data set from Dr.&nbsp;Yakovenko’s repository to conduct an exploratory analysis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#add here all the libraries we need for this assignmnt </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) <span class="co">#to load in sav files</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co">#This package is used to transform data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#this package helps to keep data tidy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ forcats   1.0.0     ✔ readr     2.1.5
+✔ ggplot2   3.5.0     ✔ stringr   1.5.1
+✔ lubridate 1.9.3     ✔ tibble    3.2.1
+✔ purrr     1.0.2     ✔ tidyr     1.3.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4) <span class="co">#this runs linear mixed models</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Matrix
+
+Attaching package: 'Matrix'
+
+The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flexplot) <span class="co">#easy designing graphs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'flexplot'
+
+The following object is masked from 'package:ggplot2':
+
+    flip_data</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix) <span class="co">#needed in my computer to run lme4</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co">#to combine objects</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Data Initialization &amp; Cleaning Procedure</strong></p>
+<p>We initialized the data set by loading it into the integrated environment RStudio (Version 2023.12.1.402) running on the software R (Version 4.2.3) in the background. We used the package “haven” (Wickham et al., 2019) to upload the file into the directory since it was contained within an “.sav” format. After loading, we put the data into an object so we could examine it.</p>
+<p>Before starting the exploratory analysis, we visually inspected the raw data to familiarize ourselves with the data set and ensure we had no missing or extraneous values. To manage the data set, we used the package “tidyverse” (Wickham et al., 2019). The raw data file contained 4252 observations and 263 participants, in which we identified 6 rows containing missing values (NAs). We decided to omit these values, to ensure the accuracy of our results, which decreased our sample to 4246 observations and 262 participants.</p>
+<p>Since the raw data set contained several variables that were irrelevant to our research question, we decided to remove them from our analysis. We used the package “dplyr” (Wickham et al., 2019) to select only the measures of 1) satisfaction with life, 2) extraversion, and 3) neuroticism.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Data <span class="ot">&lt;-</span>  <span class="fu">read_sav</span>(<span class="st">"P6003.A4.sav"</span>) <span class="co">#this loads the package into our environment</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Data) <span class="co">#allows us to view the name of each of the rows. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 19
+     id   day   swl tipm.E tipm.A tipm.C tipm.N tipm.O spss.mean tipm.E.lev2
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+1    15     5   2.6    2      1.5    2.5    6.5    5        3.83        3.79
+2    15     6   1.6    3.5    2.5    2      7      2.5      3.83        3.79
+3    15     7   2.2    2      2.5    2      6      4        4           3.79
+4    15     8   3      4      2.5    2.5    5.5    3.5      4           3.79
+5    15     9   5.2    5.5    2      4      3.5    6.5      4           3.79
+6    15    10   2.6    6      4      4      4      4.5      4           3.79
+# ℹ 9 more variables: tipm.N.lev2 &lt;dbl&gt;, tipm.E.lev1.c &lt;dbl&gt;,
+#   tipm.E.lev2.c &lt;dbl&gt;, tipm.N.lev1.c &lt;dbl&gt;, tipm.N.lev2.c &lt;dbl&gt;,
+#   RESID_1 &lt;dbl&gt;, PRED_1 &lt;dbl&gt;, RESID_2 &lt;dbl&gt;, PRED_2 &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">na.omit</span>(Data) <span class="co">#let's get rid of any individuals with missing data</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#According to the assignment instructions we only need the variables "id", "day", "swl", "tipm.E" &amp; "tipm.N". Therefore we decided to take all of the other variables from our working data set </span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>Extrav<span class="ot">=</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>(<span class="st">"tipm.A"</span><span class="sc">:</span> <span class="st">"PRED_2"</span>))</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># let's do the same for the neuroticism variables</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>Neuro <span class="ot">=</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>(<span class="st">"tipm.E"</span><span class="sc">:</span> <span class="st">"tipm.C"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>(<span class="st">"tipm.O"</span><span class="sc">:</span><span class="st">"PRED_2"</span>))</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># The next lines of code combines the two</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>Extraneuro <span class="ot">=</span> Extrav <span class="sc">%&gt;%</span> </span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tipm.N =</span> Neuro<span class="sc">$</span>tipm.N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Descriptive Statistics</strong></p>
+<p>To determine the average self-reports across the variables of interest we gathered summary statistics for the measures. We obtained mean and standard deviation values using the package “dplyr” (Wickham et al., 2019). Then, we used the package “apaTable” (Stanley, 2021) to report the descriptive statistics and bivariate correlation values.</p>
+<p>We attained the mean (<em>M</em>) and standard deviation (<em>SD</em>) values for satisfaction with life (<em>M</em>= 4.43&nbsp;<em>SD=</em>&nbsp;1.61), extraversion (<em>M</em>= 4.18,&nbsp;<em>SD=</em>&nbsp;1.52), and neuroticism (<em>M</em>= 3.49,&nbsp;<em>SD=</em>&nbsp;1.54). According to these reports (Table 1), individuals on average reported moderate (4= “neither agree nor disagree/neutral”) contentment with life, while displaying a moderate level of extraversion and slight negative levels of neuroticism (3= “somewhat disagree”).</p>
+<p>Additionally, the bivariate correlations reports (Table 1), revealed satisfaction with life to be positively correlated with extraversion (<em>r</em> (262) = .38, <em>p</em> &lt;.01). These findings could be explained by the level of social interaction one may have; if an individual is extraverted, they may be more sociable and have a larger support system. &nbsp;Inversely, satisfaction with life was found to be negatively correlated with neuroticism (<em>r</em> (262) = -.45, <em>p</em> &lt;.01). This suggests that those who experience higher neuroticism are likely to be more preoccupied with life, which in turn causes them to be less satisfied with it. Finally, we found a negative bivariate correlation between extraversion and neuroticism (<em>r</em> (262) = -.33, <em>p</em> &lt;.01). This suggests that extraverted individuals experience lower levels of neuroticism, which is in line with what we would expect according to the available literature on the topic.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#this calculates the descriptives of the following: swl, tipm.E and tipm.N</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#We want to select only the variables that we are interested in,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>descriptives <span class="ot">&lt;-</span>Extraneuro <span class="sc">%&gt;%</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(swl, tipm.E, tipm.N)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(apaTables)  <span class="co"># we need this package to get our descriptives table</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>table1 <span class="ot">&lt;-</span> <span class="fu">apa.cor.table</span>(descriptives, </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">table.number=</span><span class="dv">1</span>, <span class="at">filename=</span><span class="st">"Table_1.doc"</span>) <span class="co">#This creates our table for M and SD of all variables and saves it</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(table1) <span class="co">#we can vizualize the data in here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table 1 
+
+Means, standard deviations, and correlations with confidence intervals
+ 
+
+  Variable  M    SD   1            2           
+  1. swl    4.43 1.61                          
+                                               
+  2. tipm.E 4.18 1.52 .38**                    
+                      [.35, .41]               
+                                               
+  3. tipm.N 3.49 1.54 -.45**       -.33**      
+                      [-.47, -.43] [-.36, -.31]
+                                               
+
+Note. M and SD are used to represent mean and standard deviation, respectively.
+Values in square brackets indicate the 95% confidence interval.
+The confidence interval is a plausible range of population correlations 
+that could have caused the sample correlation (Cumming, 2014).
+ * indicates p &lt; .05. ** indicates p &lt; .01.
+ </code></pre>
+</div>
+</div>
+<p><strong>Hypothesis &amp; Analysis Set-Up</strong></p>
+<p>Interested in the relationship between extraversion and neuroticism in predicting life satisfaction, we decided to create a model including the variables using the package “flexplot” (Fife, 2022). &nbsp;We hypothesized that 1) extraversion would be positively associated with satisfaction with life, 2) neuroticism would be negatively associated with satisfaction with life, and 3) the effects would be similar for level 1 and level 2 (within and between participants, respectively).</p>
+<p><strong>Univariate Distribution</strong></p>
+<p>To merge the univariate plots of the variables of interest we used the package “patchwork” (Pedersen, 2024). We began by visualizing the univariate plots of the variables of interest (satisfaction with life &amp; extraversion), using the package “flexplot” (Fife, 2022). Extraversion (Figure 1) was revealed to be approximately normally distributed indicating a neutral pattern of response for this variable. Neuroticism, exhibited a right skewed arrangement, indicating negative levels of neuroticism. In contrast, the variable satisfaction with life, presented a left skewed pattern, indicating neutral to positive levels of life satisfaction.</p>
+<p><strong>Data Analysis Strategy</strong></p>
+<p>For the purposes of the current analysis, we chose to use a random effect, which was tested using a nested model comparison of our linear mixed effects model. We used maximum likelihood estimation (ML), to accommodate for the nested model comparisons that were built using the package “lme4” (Bates et al., 2015).</p>
+<p>We started investigating our hypothesis by fitting a baseline model, which included our dependent variable “satisfaction with life” but no predictor variables, which can be represented by the following equation: baseline = lmer (SatisfactionWithLife~ 1+ (1|id), data.</p>
+<p>We did this to determine if we needed to run a linear mixed model. We first obtained the intraclass correlation (ICC) and measures of effect size for our baseline model. The ICC value for the baseline model revealed that 74% of the variance in the data set was due to clustering, which indicates that we should run a mixed model. Similarly, the design effect shows us that by not using linear mixed models we would be increasing our sample size 12-fold, which then would increase our likelihood of committing a Type I error.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualize univariate distributions</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>a<span class="ot">&lt;-</span><span class="fu">flexplot</span>(tipm.E<span class="sc">~</span><span class="dv">1</span>, <span class="at">data =</span> Extraneuro)<span class="co">#for extraversion </span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>b<span class="ot">&lt;-</span><span class="fu">flexplot</span>(tipm.N<span class="sc">~</span><span class="dv">1</span>, <span class="at">data =</span>Extraneuro) <span class="co">#for neuroticism  </span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>c<span class="ot">&lt;-</span><span class="fu">flexplot</span>(swl<span class="sc">~</span><span class="dv">1</span>, <span class="at">data =</span>Extraneuro) <span class="co">#for satisfaction with life</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span>b<span class="sc">+</span>c <span class="co">#this combines them into one image using patchwork</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="PSYR_ASSIGNMENT_CODE4_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Run a baseline linear mixed model for outcome with random intercept only using lme4 package without any predictors</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> <span class="fu">lmer</span> (swl <span class="sc">~</span> <span class="dv">1</span><span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>id), <span class="at">data =</span> Extraneuro)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#gives us a summary of our baseline model</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(baseline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: swl ~ 1 + (1 | id)
+   Data: Extraneuro
+
+REML criterion at convergence: 11285.8
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.5459 -0.4402  0.0450  0.4925  5.2625 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ id       (Intercept) 1.9109   1.3824  
+ Residual             0.6606   0.8128  
+Number of obs: 4246, groups:  id, 262
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  4.42818    0.08656   51.16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute ICC using the flexplot package</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">icc</span>(baseline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$icc
+[1] 0.7431173
+
+$design.effect
+[1] 12.29992</code></pre>
+</div>
+</div>
+<p><strong>Model and Diagnostics</strong></p>
+<p>Using the package “flexplot” (Fife, 2022), we compared the fixed and random models. We found the random model to be supported based on its fit indices, such as significant p-value, higher Bayes factor and lower AIC and BIC.</p>
+<p>We then fitted our model, in which the outcome variable is satisfaction with life, with extraversion and neuroticism acting as fixed and random effects, clustered by individual. This can be represented by the following equation: Model = lmer (SatisfactionWithLife ~ Extraversion + Neuroticism + (Extraversion + Neuroticism|ID), data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#model testing</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Create reduced model for our control variable, which would only include it as fixed.</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>fixed_extraversion <span class="ot">&lt;-</span> <span class="fu">lmer</span> (swl <span class="sc">~</span>  tipm.E <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>id), <span class="at">data =</span>Extraneuro)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fixed_extraversion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: swl ~ tipm.E + (1 | id)
+   Data: Extraneuro
+
+REML criterion at convergence: 10928.7
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.4414 -0.4541  0.0408  0.5056  5.6490 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ id       (Intercept) 1.6638   1.29    
+ Residual             0.6085   0.78    
+Number of obs: 4246, groups:  id, 262
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  3.47523    0.09445   36.80
+tipm.E       0.22737    0.01166   19.51
+
+Correlation of Fixed Effects:
+       (Intr)
+tipm.E -0.517</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Random and fixed extraversion effect. Average effect of extraversion on satisfaction with life, changing across people.</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>random_extraversion <span class="ot">&lt;-</span> <span class="fu">lmer</span> (swl <span class="sc">~</span> tipm.E <span class="sc">+</span> (tipm.E<span class="sc">|</span>id), <span class="at">data =</span> Extraneuro)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(random_extraversion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: swl ~ tipm.E + (tipm.E | id)
+   Data: Extraneuro
+
+REML criterion at convergence: 10844.8
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.3673 -0.4327  0.0357  0.4936  5.6476 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr 
+ id       (Intercept) 2.36298  1.5372        
+          tipm.E      0.03098  0.1760   -0.55
+ Residual             0.57359  0.7574        
+Number of obs: 4246, groups:  id, 262
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  3.46002    0.11116   31.12
+tipm.E       0.23030    0.01699   13.55
+
+Correlation of Fixed Effects:
+       (Intr)
+tipm.E -0.683</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Do a model comparison</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">model.comparison</span>(fixed_extraversion,random_extraversion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>refitting model(s) with ML (instead of REML)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$statistics
+                         aic      bic bayes.factor      p
+fixed_extraversion  10936.75 10962.16 0.000000e+00 &lt;2e-16
+random_extraversion 10856.82 10894.94 3.947084e+14       
+
+$predicted_differences
+   0%   25%   50%   75%  100% 
+0.000 0.009 0.033 0.087 1.254 
+
+$r_squared_change
+(Intercept)    Residual 
+  0.2958878  -0.0607861 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Best fitting model + add the next variable to test (neuroticism)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>fixed_neuroticism <span class="ot">&lt;-</span> <span class="fu">lmer</span> (swl <span class="sc">~</span> tipm.E <span class="sc">+</span> tipm.N <span class="sc">+</span> (tipm.E<span class="sc">|</span>id), <span class="at">data =</span> Extraneuro)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#model comparision </span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">model.comparison</span>(random_extraversion, fixed_neuroticism)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>refitting model(s) with ML (instead of REML)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$statistics
+                         aic      bic bayes.factor      p
+random_extraversion 10856.82 10894.94 0.000000e+00 &lt;2e-16
+fixed_neuroticism   10489.89 10534.36 1.991223e+78       
+
+$predicted_differences
+   0%   25%   50%   75%  100% 
+0.000 0.055 0.125 0.231 1.034 
+
+$r_squared_change
+(Intercept)      tipm.E    Residual 
+ 0.14980880  0.17798619  0.07968109 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add the final neuroticism random effect to test it</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>random_neuroticism <span class="ot">&lt;-</span> <span class="fu">lmer</span> (swl <span class="sc">~</span> tipm.E <span class="sc">+</span> tipm.N <span class="sc">+</span> (tipm.N <span class="sc">+</span> tipm.E<span class="sc">|</span>id), <span class="at">data =</span> Extraneuro)     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, :
+Model failed to converge with max|grad| = 0.00567679 (tol = 0.002, component 1)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#model comparision</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">model.comparison</span>(fixed_neuroticism, random_neuroticism)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>refitting model(s) with ML (instead of REML)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$statistics
+                        aic      bic bayes.factor      p
+fixed_neuroticism  10489.89 10534.36 0.000000e+00 &lt;2e-16
+random_neuroticism 10355.86 10419.39 9.238782e+24       
+
+$predicted_differences
+   0%   25%   50%   75%  100% 
+0.000 0.012 0.039 0.110 1.196 
+
+$r_squared_change
+ (Intercept)       tipm.E     Residual 
+ 0.007946645 -0.282669079 -0.080803425 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Get the summary with confidence intervals</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(random_neuroticism)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: swl ~ tipm.E + tipm.N + (tipm.N + tipm.E | id)
+   Data: Extraneuro
+
+REML criterion at convergence: 10335.9
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.0770 -0.4525  0.0361  0.4915  5.6038 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr       
+ id       (Intercept) 2.02508  1.4231              
+          tipm.N      0.03510  0.1874   -0.32      
+          tipm.E      0.01985  0.1409   -0.41 -0.05
+ Residual             0.48842  0.6989              
+Number of obs: 4246, groups:  id, 262
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  4.50471    0.11824   38.10
+tipm.E       0.16128    0.01530   10.54
+tipm.N      -0.21027    0.01708  -12.31
+
+Correlation of Fixed Effects:
+       (Intr) tipm.E
+tipm.E -0.620       
+tipm.N -0.518  0.130
+optimizer (nloptwrap) convergence code: 0 (OK)
+Model failed to converge with max|grad| = 0.00567679 (tol = 0.002, component 1)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now let's make a table for it</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(apaTables)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>table2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(swl <span class="sc">~</span> tipm.E <span class="sc">+</span> tipm.N <span class="sc">+</span> (tipm.N <span class="sc">+</span> tipm.E<span class="sc">|</span>id), <span class="at">data =</span> Extraneuro,<span class="at">filename=</span><span class="st">"Table_2.doc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: In lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...) :
+ extra argument 'filename' will be disregarded</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apa.reg.table</span>(table2, <span class="at">table.number =</span> <span class="dv">2</span>, <span class="at">filename=</span><span class="st">"Table_2.doc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table 2 
+
+Regression results using swl as the criterion
+ 
+
+                Predictor       b       b_95%_CI sr2 sr2_95%_CI             Fit
+              (Intercept)  4.62**   [4.43, 4.80]                               
+                   tipm.E  0.27**   [0.24, 0.30] .06 [.05, .07]                
+                   tipm.N -0.38** [-0.41, -0.35] .12 [.10, .14]                
+ tipm.N + tipm.E | idTRUE      NA       [NA, NA]  NA   [NA, NA]                
+                                                                    R2 = .263**
+                                                                95% CI[.24,.28]
+                                                                               
+
+Note. A significant b-weight indicates the semi-partial correlation is also significant.
+b represents unstandardized regression weights. 
+sr2 represents the semi-partial correlation squared.
+Square brackets are used to enclose the lower and upper limits of a confidence interval.
+* indicates p &lt; .05. ** indicates p &lt; .01.
+ </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#let's vizualize our table in the console</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(table2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = swl ~ tipm.E + tipm.N + (tipm.N + tipm.E | id), 
+    data = Extraneuro, filename = "Table_2.doc")
+
+Coefficients:
+             (Intercept)                    tipm.E                    tipm.N  
+                  4.6189                    0.2736                   -0.3816  
+tipm.N + tipm.E | idTRUE  
+                      NA  </code></pre>
+</div>
+</div>
+<p><strong>Results</strong></p>
+<p>We visualized our model (Figure 3), which indicated that a normally distributed data set, complying with the assumption of normality. When checking for the assumption of linearity, our plot seemed to comply with this. Finally, the model was also compliant with the assumption of homoskedasticity.</p>
+<p>We used the package “flexplot” (Fife, 2022) to obtain estimates of the model. According to our model, the estimated values tell us that the variance of individuals’ satisfaction with life is 2.03. This accounts for ~79% of the variance that is explained between reporting of extraversion that is left after accounting for our fixed effects.</p>
+<p>The model, as pictured in Table 2 which we obtained using the package “apaTable”, explains roughly 26% (<em>CI</em> [.24,.28]) of the variance in satisfaction with life, considering a 95% confidence interval. This suggests that both extraversion and neuroticism have a large effect in predicting life satisfaction. Semi-partial r<sup>2</sup> values indicate that neuroticism is responsible for contributing the most to the variance in life satisfaction (<em>r<sup>2</sup></em> = 0.12, <em>CI</em> [.10, .14]), when in comparison to extraversion (<em>r<sup>2</sup></em> = 0.16, <em>CI</em> [.05, .07]).</p>
+<p>The data also revealed a significant <em>b-</em>weight for both extraversion (<em>b</em> = 0.27 <em>CI</em> [0.24, .30]) and neuroticism (<em>b</em> = - 0.38 <em>CI</em> [-0.41, -0.35]), considering a 95% confidence interval. The results indicate extraversion to be significantly positively associated with satisfaction with life. Meanwhile, the inverse pattern is seen for neuroticism. According to our coefficients, we can determine that for every one-unit increase in extraversion, satisfaction with life increases by 0.16. In a mirroring pattern, with every one-unit increase in neuroticism, life satisfaction decreases by -0.21. As described by the previously stated evidence, we can determine, that extraversion is positively associated with satisfaction with life, while neuroticism is negatively associated with it, confirming the previously stated hypothesis 1 &amp; 2.</p>
+<p>Residual R<sup>2</sup> reports revealed that the model successfully explained 26% of the variance in satisfaction with life within individuals (level 1). Conversely, our model did not meaningfully explain the variability of life satisfaction between individuals (level 2). Therefore, in our model, effects for level 1 were significant, and those for level 2 were not. In line with this, we reject the hypothesis that the effects between level 1 and level 2 will be similar.</p>
+<p>Overall, we can conclude that extraversion, positively impacts satisfaction with life, while neuroticism negatively impacts it, and that these effects are meaningful within individuals, but not between them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualize the model </span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">visualize</span>(random_neuroticism, <span class="at">plot =</span> <span class="st">"model"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="PSYR_ASSIGNMENT_CODE4_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Get diagnostics</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">visualize</span>(random_neuroticism, <span class="at">plot =</span> <span class="st">"residuals"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="PSYR_ASSIGNMENT_CODE4_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Get summary</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(random_neuroticism)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: swl ~ tipm.E + tipm.N + (tipm.N + tipm.E | id)
+   Data: Extraneuro
+
+REML criterion at convergence: 10335.9
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.0770 -0.4525  0.0361  0.4915  5.6038 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr       
+ id       (Intercept) 2.02508  1.4231              
+          tipm.N      0.03510  0.1874   -0.32      
+          tipm.E      0.01985  0.1409   -0.41 -0.05
+ Residual             0.48842  0.6989              
+Number of obs: 4246, groups:  id, 262
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  4.50471    0.11824   38.10
+tipm.E       0.16128    0.01530   10.54
+tipm.N      -0.21027    0.01708  -12.31
+
+Correlation of Fixed Effects:
+       (Intr) tipm.E
+tipm.E -0.620       
+tipm.N -0.518  0.130
+optimizer (nloptwrap) convergence code: 0 (OK)
+Model failed to converge with max|grad| = 0.00567679 (tol = 0.002, component 1)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Get key estimates</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">estimates</span>(random_neuroticism)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>refitting model(s) with ML (instead of REML)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fixed Effects: 
+(Intercept)      tipm.E      tipm.N 
+  4.5047051   0.1612831  -0.2102705 
+
+
+Random Effects: 
+ Groups   Name        Std.Dev. Corr         
+ id       (Intercept) 1.42305               
+          tipm.N      0.18735  -0.325       
+          tipm.E      0.14090  -0.405 -0.054
+ Residual             0.69887               
+
+
+ICC and Design Effect: 
+          icc design.effect 
+    0.7431173    12.2999212 
+
+
+R Squared: 
+
+(Intercept)    Residual 
+-0.05974614  0.26061215 </code></pre>
+</div>
+</div>
+<p><strong>References:</strong></p>
+<p>Bates D, Mächler M, Bolker B, Walker S (2015). “Fitting Linear Mixed-Effects Models Using lme4.”<em>Journal of Statistical Software</em>,&nbsp;67(1), 1–48.&nbsp;<a href="https://doi.org/10.18637/jss.v067.i01">doi:10.18637/jss.v067.i01</a>.</p>
+<p>Fife, D. (2022). Flexplot: Graphically-based data analysis.&nbsp;<em>Psychological Methods, 27</em>(4), 477–496.&nbsp;https://doi.org/10.1037/met0000424</p>
+<p>Pedersen T (2024).&nbsp;<em>patchwork: The Composer of Plots</em>. R package version 1.2.0.9000, https://github.com/thomasp85/patchwork,&nbsp;<a href="https://patchwork.data-imaginist.com" class="uri">https://patchwork.data-imaginist.com</a>.</p>
+<p>&nbsp; Stanley D (2021). _apaTables: Create American Psychological Association (APA) Style Tables_.&nbsp; R package version 2.0.8, &lt;https://CRAN.R-project.org/package=apaTables&gt;.</p>
+<p>Wickham, H.,&nbsp;Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R.,&nbsp;Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K.,&nbsp;Ooms, J., Robinson, D., Seidel, D. P.,&nbsp;Spinu, V., Takahashi, K., Vaughan, D., Wilke, C., Woo, K., &amp;&nbsp;Yutani, H. (2019). Welcome to the&nbsp;tidyverse.&nbsp;<em>Journal of&nbsp;Open Source&nbsp;Software, 4</em>(43), 1686.&nbsp;<u>https://doi.org/10.21105/joss.01686</u></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
